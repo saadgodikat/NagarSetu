@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: solapur
+      POSTGRES_PASSWORD: solapur
+      POSTGRES_DB: solapur
+    ports:
+      - "5432:5432"
+    volumes:
+      - solapur_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U solapur -d solapur"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  solapur_pgdata:

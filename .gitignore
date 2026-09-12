@@ -1,0 +1,13 @@
+.env
+.venv
+__pycache__/
+*.pyc
+.pytest_cache/
+uploads/
+node_modules/
+.next/
+.expo/
+dist/
+*.log
+backend/uploads/
+apps/mobile/.expo/
