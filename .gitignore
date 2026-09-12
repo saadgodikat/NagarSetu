@@ -11,3 +11,4 @@ dist/
 *.log
 backend/uploads/
 apps/mobile/.expo/
+apps/mobile/.env.local
