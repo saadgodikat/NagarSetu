@@ -1,6 +1,5 @@
 import Constants from "expo-constants";
 import { useEffect, useState } from "react";
-import { File } from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import {
@@ -63,9 +62,10 @@ type AiClassifyResult = {
 };
 
 async function api<T>(path: string, token?: string, init?: RequestInit): Promise<T> {
-  const headers: Record<string, string> = {
-    ...(init?.headers as Record<string, string> | undefined),
-  };
+  const isFormData = init?.body instanceof FormData;
+  const headers: Record<string, string> = isFormData
+    ? {}
+    : { ...(init?.headers as Record<string, string> | undefined) };
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -113,7 +113,11 @@ export default function Index() {
     setClassifying(true);
     try {
       const formData = new FormData();
-      formData.append("photo", new File(photoAsset.uri));
+      const filename = photoAsset.uri.split("/").pop() ?? "photo.jpg";
+      const ext = filename.split(".").pop()?.toLowerCase() ?? "jpg";
+      const mimeType = ext === "png" ? "image/png" : "image/jpeg";
+      // @ts-ignore - React Native FormData accepts this shape
+      formData.append("photo", { uri: photoAsset.uri, name: filename, type: mimeType });
       if (currentDescription.trim()) {
         formData.append("description", currentDescription.trim());
       }
@@ -355,7 +359,11 @@ export default function Index() {
     setWorkerSubmitting(true);
     try {
       const formData = new FormData();
-      formData.append("photo", new File(resolutionPhoto.uri));
+      const resFilename = resolutionPhoto.uri.split("/").pop() ?? "photo.jpg";
+      const resExt = resFilename.split(".").pop()?.toLowerCase() ?? "jpg";
+      const resMime = resExt === "png" ? "image/png" : "image/jpeg";
+      // @ts-ignore - React Native FormData accepts this shape
+      formData.append("photo", { uri: resolutionPhoto.uri, name: resFilename, type: resMime });
       const updated = await api<ComplaintSummary>(
         `/api/v1/worker/complaints/${selectedTask.id}/resolution-photo`,
         token,
@@ -438,8 +446,11 @@ export default function Index() {
       formData.append("latitude", latitude);
       formData.append("longitude", longitude);
 
-      const photoFile = new File(selectedPhoto.uri);
-      formData.append("photo", photoFile);
+      const filename = selectedPhoto.uri.split("/").pop() ?? "photo.jpg";
+      const ext = filename.split(".").pop()?.toLowerCase() ?? "jpg";
+      const mimeType = ext === "png" ? "image/png" : "image/jpeg";
+      // @ts-ignore - React Native FormData accepts this shape
+      formData.append("photo", { uri: selectedPhoto.uri, name: filename, type: mimeType });
       if (categoryOverride) {
         formData.append("category", categoryOverride);
       }
