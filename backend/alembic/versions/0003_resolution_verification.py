@@ -11,20 +11,22 @@ depends_on = None
 
 
 def upgrade() -> None:
-    # Complaints table verification fields
-    op.add_column("complaints", sa.Column("verification_score", sa.Float(), nullable=True))
-    op.add_column("complaints", sa.Column("verification_status", sa.String(length=32), nullable=True))
-    op.add_column("complaints", sa.Column("verification_details", JSONB, nullable=True))
-    op.add_column("complaints", sa.Column("verified_at", sa.DateTime(timezone=True), nullable=True))
-    op.add_column("complaints", sa.Column("citizen_rating", sa.Integer(), nullable=True))
-    op.add_column("complaints", sa.Column("citizen_feedback", sa.Text(), nullable=True))
-
-    op.create_index("ix_complaints_verification_status", "complaints", ["verification_status"])
-
-    # Images table location & capture metadata
-    op.add_column("images", sa.Column("latitude", sa.Float(), nullable=True))
-    op.add_column("images", sa.Column("longitude", sa.Float(), nullable=True))
-    op.add_column("images", sa.Column("captured_at", sa.DateTime(timezone=True), nullable=True))
+    from sqlalchemy import inspect
+    bind = op.get_bind()
+    inspector = inspect(bind)
+    c_cols = {c["name"] for c in inspector.get_columns("complaints")}
+    i_cols = {c["name"] for c in inspector.get_columns("images")}
+    c_idxs = {i["name"] for i in inspector.get_indexes("complaints")}
+    for col, typ in [("verification_score", sa.Float()), ("verification_status", sa.String(32)),
+                     ("verification_details", JSONB), ("verified_at", sa.DateTime(timezone=True)),
+                     ("citizen_rating", sa.Integer()), ("citizen_feedback", sa.Text())]:
+        if col not in c_cols:
+            op.add_column("complaints", sa.Column(col, typ, nullable=True))
+    if "ix_complaints_verification_status" not in c_idxs:
+        op.create_index("ix_complaints_verification_status", "complaints", ["verification_status"])
+    for col, typ in [("latitude", sa.Float()), ("longitude", sa.Float()), ("captured_at", sa.DateTime(timezone=True))]:
+        if col not in i_cols:
+            op.add_column("images", sa.Column(col, typ, nullable=True))
 
 
 def downgrade() -> None:
