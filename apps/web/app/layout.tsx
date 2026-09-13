@@ -1,9 +1,18 @@
+import type { Metadata } from 'next'
+import './globals.css'
+import { AuthProvider } from '@/lib/auth'
+
+export const metadata: Metadata = {
+  title: 'Solapur Municipal',
+  description: 'Smart Complaint Resolution Platform',
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: "system-ui, sans-serif", margin: 0, background: "#f4f1ea" }}>
-        {children}
+      <body>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
-  );
+  )
 }

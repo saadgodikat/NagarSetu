@@ -1,0 +1,75 @@
+{
+  "app": { "name": "सोलापूर महानगरपालिका" },
+  "auth": {
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "signIn": "साइन इन",
+    "loginFailed": "लॉगिन अयशस्वी. कृपया पुन्हा प्रयत्न करा."
+  },
+  "citizen": {
+    "myComplaints": "माझ्या तक्रारी",
+    "reportProblem": "समस्या नोंदवा",
+    "noComplaints": "अद्याप कोणत्याही तक्रारी नाहीत. + टॅप करून नोंदवा.",
+    "resolutionPrompt": "ही समस्या आपल्या समाधानानुसार सोडवली गेली आहे का?",
+    "confirmResolution": "हो, सोडवले",
+    "rejectResolution": "नाही, पुन्हा काम करा"
+  },
+  "category": {
+    "pothole": "रस्त्यावरील खड्डा",
+    "garbage": "कचरा / स्वच्छता",
+    "drainage": "सांडपाणी / ड्रेनेज",
+    "streetlight": "रस्त्यावरील दिवे",
+    "water_leakage": "पाणी गळती",
+    "other": "इतर"
+  },
+  "report": {
+    "step1": "फोटो काढा",
+    "step2": "वर्णन करा",
+    "step3": "तपासा आणि सबमिट करा",
+    "takePhoto": "फोटो काढा",
+    "chooseGallery": "गॅलरीतून निवडा",
+    "aiSuggestion": "सुचवलेली श्रेणी",
+    "category": "श्रेणी",
+    "description": "समस्येचे वर्णन करा (पर्यायी)",
+    "descriptionPlaceholder": "उदा. मोठा खड्डा वाहतुकीत अडथळा निर्माण करत आहे",
+    "gpsCapturing": "GPS स्थान शोधत आहे...",
+    "gpsReady": "स्थान निश्चित झाले",
+    "submit": "तक्रार सबमिट करा",
+    "submitting": "सबमिट होत आहे...",
+    "next": "पुढे",
+    "back": "मागे",
+    "submitted": "तक्रार यशस्वीरित्या नोंदवली गेली"
+  },
+  "status": {
+    "submitted": "सादर केले",
+    "under_review": "आढावा घेतला जात आहे",
+    "assigned": "नियुक्त केले",
+    "in_progress": "प्रगतीपथावर",
+    "resolution_submitted": "निराकरण सादर केले",
+    "verified": "पडताळलेले",
+    "closed": "बंद",
+    "reopened": "पुन्हा उघडले",
+    "rejected": "नाकारले"
+  },
+  "worker": {
+    "myTasks": "माझी कामे",
+    "noTasks": "कोणतेही काम नियुक्त नाही.",
+    "accept": "काम स्वीकारा",
+    "arrived": "पोहोचलो",
+    "inProgress": "काम सुरू करा",
+    "submitResolution": "निराकरण सबमिट करा",
+    "addNote": "नोट जोडा",
+    "uploadProgress": "प्रगती फोटो अपलोड करा",
+    "uploadResolution": "निराकरण फोटो अपलोड करा",
+    "requestSupport": "अतिरिक्त मदत मागा",
+    "navigate": "स्थान नकाशावर पहा"
+  },
+  "severity": {
+    "CRITICAL": "अत्यंत गंभीर",
+    "HIGH": "उच्च",
+    "MEDIUM": "मध्यम",
+    "LOW": "कमी"
+  },
+  "error": { "generic": "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा." },
+  "loading": "लोड होत आहे..."
+}

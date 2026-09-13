@@ -1,0 +1,108 @@
+{
+  "app": { "name": "Solapur Municipal", "tagline": "Smart Complaint Resolution" },
+  "nav": {
+    "dashboard": "Dashboard",
+    "complaints": "Complaints",
+    "map": "Map",
+    "assistant": "Assistant",
+    "logout": "Logout"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "loginFailed": "Login failed. Please check your credentials."
+  },
+  "complaint": {
+    "id": "Complaint ID",
+    "title": "Title",
+    "description": "Description",
+    "category": "Category",
+    "severity": "Severity",
+    "status": "Status",
+    "priority": "Priority Score",
+    "assignedTo": "Assigned To",
+    "ward": "Ward",
+    "department": "Department",
+    "slaDeadline": "SLA Deadline",
+    "createdAt": "Submitted",
+    "notAssigned": "Not Assigned",
+    "noComplaints": "No complaints found",
+    "photos": {
+      "before": "Before Photo",
+      "progress": "Progress Photo",
+      "after": "After Photo"
+    },
+    "verification": "Verification",
+    "citizenConfirmation": "Citizen Confirmation"
+  },
+  "status": {
+    "submitted": "Submitted",
+    "under_review": "Under Review",
+    "assigned": "Assigned",
+    "in_progress": "In Progress",
+    "resolution_submitted": "Resolution Submitted",
+    "verified": "Verified",
+    "closed": "Closed",
+    "reopened": "Reopened",
+    "rejected": "Rejected"
+  },
+  "severity": {
+    "CRITICAL": "Critical",
+    "HIGH": "High",
+    "MEDIUM": "Medium",
+    "LOW": "Low"
+  },
+  "action": {
+    "assign": "Assign",
+    "reassign": "Reassign",
+    "escalate": "Escalate",
+    "verify": "Verify",
+    "close": "Close",
+    "reopen": "Reopen",
+    "reject": "Reject",
+    "merge": "Merge",
+    "viewDetails": "View Details",
+    "filter": "Filter",
+    "search": "Search",
+    "refresh": "Refresh",
+    "submit": "Submit"
+  },
+  "dashboard": {
+    "title": "Command Center",
+    "critical": "Critical",
+    "overdue": "Overdue",
+    "unassigned": "Unassigned",
+    "emerging": "Emerging Issues",
+    "open": "Open",
+    "resolutionRate": "Resolution Rate",
+    "avgResolution": "Avg Resolution",
+    "hours": "hrs",
+    "deptWorkload": "Department Workload",
+    "emergingAlerts": "Emerging Alerts",
+    "noAlerts": "No emerging issues"
+  },
+  "map": {
+    "title": "Complaint Map",
+    "filters": "Filters",
+    "noComplaints": "No complaints to show"
+  },
+  "assistant": {
+    "title": "AI Assistant",
+    "placeholder": "Ask a question...",
+    "ask": "Ask",
+    "suggested": "Suggested Questions",
+    "answer": "Answer"
+  },
+  "worker": {
+    "name": "Worker Name",
+    "selectWorker": "Select a worker",
+    "assignTo": "Assign to Worker"
+  },
+  "error": {
+    "generic": "Something went wrong. Please try again.",
+    "load": "Failed to load data."
+  },
+  "loading": "Loading..."
+}
