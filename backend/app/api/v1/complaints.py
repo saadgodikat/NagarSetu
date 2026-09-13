@@ -1,7 +1,9 @@
 from math import ceil
 from uuid import UUID
+import math
 
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.ai.classification import get_classifier
@@ -25,6 +27,70 @@ from app.schemas.complaints import ClassifyOut, ComplaintListOut, ComplaintOut, 
 from app.schemas.operations import ResolutionDecision
 
 router = APIRouter(prefix="/api/v1", tags=["complaints"])
+
+
+class NearbyComplaintOut(BaseModel):
+    id: str
+    category: str
+    status: str
+    severity: str
+    reported_date: str
+    location_lat: float
+    location_lng: float
+    ward_name: str | None
+
+
+@router.get("/complaints/nearby", response_model=list[NearbyComplaintOut])
+def nearby_complaints(
+    lat: float = Query(...),
+    lng: float = Query(...),
+    radius_km: float = Query(default=5.0, ge=0.1, le=50.0),
+    category: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+) -> list[NearbyComplaintOut]:
+    """Public endpoint — returns privacy-safe nearby complaints (no citizen PII)."""
+    from app.ai.duplicates import haversine_m
+    from app.models.org import Ward
+    from sqlalchemy import select as sa_select
+    from app.models.enums import ComplaintStatus
+
+    TERMINAL = {ComplaintStatus.closed.value, ComplaintStatus.rejected.value}
+    radius_m = radius_km * 1000
+
+    # Fetch recent complaints within a bounding box first, then filter by distance
+    lat_delta = radius_km / 111.0
+    lng_delta = radius_km / (111.0 * abs(math.cos(math.radians(lat))) + 0.001)
+
+    q = db.scalars(
+        sa_select(Complaint).where(
+            Complaint.location_lat.between(lat - lat_delta, lat + lat_delta),
+            Complaint.location_lng.between(lng - lng_delta, lng + lng_delta),
+        ).order_by(Complaint.created_at.desc()).limit(200)
+    ).all()
+
+    ward_ids = {c.ward_id for c in q if c.ward_id}
+    ward_names: dict[int, str] = {}
+    if ward_ids:
+        for w in db.scalars(sa_select(Ward).where(Ward.id.in_(ward_ids))).all():
+            ward_names[w.id] = w.ward_name
+
+    results = []
+    for c in q:
+        if haversine_m(lat, lng, c.location_lat, c.location_lng) > radius_m:
+            continue
+        if category and c.category.value != category:
+            continue
+        results.append(NearbyComplaintOut(
+            id=str(c.id),
+            category=c.category.value,
+            status=c.status.value,
+            severity=c.severity.value,
+            reported_date=c.created_at.date().isoformat(),
+            location_lat=round(c.location_lat, 3),   # ~100m precision for privacy
+            location_lng=round(c.location_lng, 3),
+            ward_name=ward_names.get(c.ward_id) if c.ward_id else None,
+        ))
+    return results[:100]
 
 
 def _raise(exc: ComplaintError) -> None:
