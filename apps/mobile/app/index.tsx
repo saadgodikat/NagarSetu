@@ -112,28 +112,38 @@ export default function Index() {
     if (!token) return;
     setClassifying(true);
     try {
-      const formData = new FormData();
       const filename = photoAsset.uri.split("/").pop() ?? "photo.jpg";
       const ext = filename.split(".").pop()?.toLowerCase() ?? "jpg";
       const mimeType = ext === "png" ? "image/png" : "image/jpeg";
-      // @ts-ignore - React Native FormData accepts this shape
-      formData.append("photo", { uri: photoAsset.uri, name: filename, type: mimeType });
-      if (currentDescription.trim()) {
-        formData.append("description", currentDescription.trim());
-      }
-      const classifyResult = await api<AiClassifyResult>(
-        "/api/v1/ai/classify",
-        token,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
-      setAiPrediction(classifyResult);
-      setCategoryOverride(classifyResult.category);
-      setMessage(`AI detected: ${classifyResult.category} (${Math.round(classifyResult.confidence * 100)}% via ${classifyResult.source})`);
+
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `${API}/api/v1/ai/classify`);
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.responseType = "text";
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            const result: AiClassifyResult = JSON.parse(xhr.responseText);
+            setAiPrediction(result);
+            setCategoryOverride(result.category);
+            setMessage(`AI detected: ${result.category} (${Math.round(result.confidence * 100)}% via ${result.source})`);
+            resolve();
+          } else {
+            reject(new Error(`HTTP ${xhr.status}`));
+          }
+        };
+        xhr.onerror = () => reject(new Error("Network error"));
+        const formData = new FormData();
+        // @ts-ignore - React Native FormData accepts { uri, name, type }
+        formData.append("photo", { uri: photoAsset.uri, name: filename, type: mimeType });
+        if (currentDescription.trim()) {
+          formData.append("description", currentDescription.trim());
+        }
+        xhr.send(formData);
+      });
     } catch (err) {
       console.warn("AI Classification preview failed:", err);
+      setMessage("AI preview unavailable — category will be auto-detected on submit");
     } finally {
       setClassifying(false);
     }
@@ -358,17 +368,29 @@ export default function Index() {
     }
     setWorkerSubmitting(true);
     try {
-      const formData = new FormData();
       const resFilename = resolutionPhoto.uri.split("/").pop() ?? "photo.jpg";
       const resExt = resFilename.split(".").pop()?.toLowerCase() ?? "jpg";
       const resMime = resExt === "png" ? "image/png" : "image/jpeg";
-      // @ts-ignore - React Native FormData accepts this shape
-      formData.append("photo", { uri: resolutionPhoto.uri, name: resFilename, type: resMime });
-      const updated = await api<ComplaintSummary>(
-        `/api/v1/worker/complaints/${selectedTask.id}/resolution-photo`,
-        token,
-        { method: "POST", body: formData },
-      );
+
+      const updated = await new Promise<ComplaintSummary>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `${API}/api/v1/worker/complaints/${selectedTask.id}/resolution-photo`);
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.responseType = "text";
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(JSON.parse(xhr.responseText) as ComplaintSummary);
+          } else {
+            reject(new Error(`HTTP ${xhr.status}: ${xhr.responseText}`));
+          }
+        };
+        xhr.onerror = () => reject(new Error("Network error"));
+        const formData = new FormData();
+        // @ts-ignore - React Native FormData accepts { uri, name, type }
+        formData.append("photo", { uri: resolutionPhoto.uri, name: resFilename, type: resMime });
+        xhr.send(formData);
+      });
+
       setSelectedTask(updated);
       setResolutionPhoto(null);
       await fetchWorkerTasks(token);
@@ -440,29 +462,33 @@ export default function Index() {
     }
     setSubmitting(true);
     try {
-      const formData = new FormData();
-      formData.append("title", title.trim());
-      formData.append("description", description.trim());
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-
       const filename = selectedPhoto.uri.split("/").pop() ?? "photo.jpg";
       const ext = filename.split(".").pop()?.toLowerCase() ?? "jpg";
       const mimeType = ext === "png" ? "image/png" : "image/jpeg";
-      // @ts-ignore - React Native FormData accepts this shape
-      formData.append("photo", { uri: selectedPhoto.uri, name: filename, type: mimeType });
-      if (categoryOverride) {
-        formData.append("category", categoryOverride);
-      }
 
-      const created = await api<{ id: string; title: string; status: string }>(
-        "/api/v1/complaints",
-        token,
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const created = await new Promise<{ id: string; title: string; status: string }>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", `${API}/api/v1/complaints`);
+        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.responseType = "text";
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(JSON.parse(xhr.responseText));
+          } else {
+            reject(new Error(xhr.responseText || `HTTP ${xhr.status}`));
+          }
+        };
+        xhr.onerror = () => reject(new Error("Network error"));
+        const formData = new FormData();
+        formData.append("title", title.trim());
+        formData.append("description", description.trim());
+        formData.append("latitude", latitude);
+        formData.append("longitude", longitude);
+        // @ts-ignore - React Native FormData accepts { uri, name, type }
+        formData.append("photo", { uri: selectedPhoto.uri, name: filename, type: mimeType });
+        if (categoryOverride) formData.append("category", categoryOverride);
+        xhr.send(formData);
+      });
 
       setTitle("");
       setDescription("");

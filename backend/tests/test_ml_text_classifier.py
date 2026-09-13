@@ -8,6 +8,7 @@ from app.models.enums import ComplaintCategory
 
 
 def test_disabled_ml_mode_returns_keyword_classifier(monkeypatch):
+    monkeypatch.setattr(settings, "vision_ai_enabled", False)
     monkeypatch.setattr(settings, "ml_text_classifier_enabled", False)
     classifier = get_classifier()
     assert isinstance(classifier, KeywordComplaintClassifier)
@@ -18,6 +19,7 @@ def test_disabled_ml_mode_returns_keyword_classifier(monkeypatch):
 
 
 def test_enabled_ml_mode_returns_sklearn_classifier(monkeypatch):
+    monkeypatch.setattr(settings, "vision_ai_enabled", False)
     monkeypatch.setattr(settings, "ml_text_classifier_enabled", True)
     classifier = get_classifier()
     assert isinstance(classifier, SklearnTextComplaintClassifier)

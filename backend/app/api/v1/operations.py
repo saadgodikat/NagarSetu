@@ -1,6 +1,7 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -334,6 +335,44 @@ from app.ai.classification import get_classifier  # noqa: E402
 from app.ai.department import department_id_for_category  # noqa: E402
 from app.ai.severity import rule_severity  # noqa: E402
 from app.ai.resolution_verifier import load_image_bytes  # noqa: E402
+
+
+class WorkerRecommendationOut(BaseModel):
+    worker_id: str
+    worker_name: str
+    active_tasks: int
+    distance_km: float | None
+    department_match: bool
+    score: float
+    reason: str
+
+
+@router.get("/complaints/{complaint_id}/worker-recommendations", response_model=list[WorkerRecommendationOut])
+def worker_recommendations(
+    complaint_id: UUID,
+    user: User = Depends(require_roles(*OPS_ROLES)),
+    db: Session = Depends(get_db),
+) -> list[WorkerRecommendationOut]:
+    """Return ranked worker recommendations for a complaint."""
+    from app.operations.recommendations import recommend_workers
+    from app.operations.service import _get_for_user
+    try:
+        _get_for_user(db, user, complaint_id)  # RBAC check
+    except ComplaintError as exc:
+        _raise(exc)
+    recs = recommend_workers(db, complaint_id)
+    return [
+        WorkerRecommendationOut(
+            worker_id=str(r.worker_id),
+            worker_name=r.worker_name,
+            active_tasks=r.active_tasks,
+            distance_km=r.distance_km,
+            department_match=r.department_match,
+            score=r.score,
+            reason=r.reason,
+        )
+        for r in recs
+    ]
 
 
 @router.post("/complaints/{complaint_id}/reclassify", response_model=ClassifyOut)
