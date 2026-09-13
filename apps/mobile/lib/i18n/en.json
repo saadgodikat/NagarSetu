@@ -1,0 +1,75 @@
+{
+  "app": { "name": "Solapur Municipal" },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "loginFailed": "Login failed. Please try again."
+  },
+  "citizen": {
+    "myComplaints": "My Complaints",
+    "reportProblem": "Report a Problem",
+    "noComplaints": "No complaints yet. Tap + to report one.",
+    "resolutionPrompt": "Has this issue been resolved to your satisfaction?",
+    "confirmResolution": "Yes, it's resolved",
+    "rejectResolution": "No, request rework"
+  },
+  "category": {
+    "pothole": "Pothole / Road",
+    "garbage": "Garbage / Waste",
+    "drainage": "Drainage",
+    "streetlight": "Streetlight",
+    "water_leakage": "Water Leakage",
+    "other": "Other"
+  },
+  "report": {
+    "step1": "Take Photo",
+    "step2": "Describe",
+    "step3": "Review & Submit",
+    "takePhoto": "Take Photo",
+    "chooseGallery": "Choose from Gallery",
+    "aiSuggestion": "Suggested Category",
+    "category": "Category",
+    "description": "Describe the problem (optional)",
+    "descriptionPlaceholder": "e.g. Large pothole causing traffic issues",
+    "gpsCapturing": "Capturing GPS...",
+    "gpsReady": "Location captured",
+    "submit": "Submit Complaint",
+    "submitting": "Submitting...",
+    "next": "Next",
+    "back": "Back",
+    "submitted": "Complaint submitted successfully"
+  },
+  "status": {
+    "submitted": "Submitted",
+    "under_review": "Under Review",
+    "assigned": "Assigned",
+    "in_progress": "In Progress",
+    "resolution_submitted": "Resolution Submitted",
+    "verified": "Verified",
+    "closed": "Closed",
+    "reopened": "Reopened",
+    "rejected": "Rejected"
+  },
+  "worker": {
+    "myTasks": "My Tasks",
+    "noTasks": "No tasks assigned.",
+    "accept": "Accept Task",
+    "arrived": "Mark Arrived",
+    "inProgress": "Start Work",
+    "submitResolution": "Submit Resolution",
+    "addNote": "Add Note",
+    "uploadProgress": "Upload Progress Photo",
+    "uploadResolution": "Upload Resolution Photo",
+    "requestSupport": "Request Support",
+    "navigate": "Navigate to Location"
+  },
+  "severity": {
+    "CRITICAL": "Critical",
+    "HIGH": "High",
+    "MEDIUM": "Medium",
+    "LOW": "Low"
+  },
+  "error": { "generic": "Something went wrong. Please try again." },
+  "loading": "Loading..."
+}

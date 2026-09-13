@@ -12,3 +12,4 @@ dist/
 backend/uploads/
 apps/mobile/.expo/
 apps/mobile/.env.local
+*.bak

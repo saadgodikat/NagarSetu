@@ -1,0 +1,108 @@
+{
+  "app": { "name": "सोलापूर महानगरपालिका", "tagline": "स्मार्ट तक्रार निराकरण" },
+  "nav": {
+    "dashboard": "डॅशबोर्ड",
+    "complaints": "तक्रारी",
+    "map": "नकाशा",
+    "assistant": "सहाय्यक",
+    "logout": "बाहेर पडा"
+  },
+  "auth": {
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "signIn": "साइन इन",
+    "signingIn": "साइन इन होत आहे...",
+    "loginFailed": "लॉगिन अयशस्वी. कृपया आपले क्रेडेन्शिअल तपासा."
+  },
+  "complaint": {
+    "id": "तक्रार आयडी",
+    "title": "शीर्षक",
+    "description": "वर्णन",
+    "category": "श्रेणी",
+    "severity": "तीव्रता",
+    "status": "स्थिती",
+    "priority": "प्राधान्य गुण",
+    "assignedTo": "नियुक्त",
+    "ward": "वार्ड",
+    "department": "विभाग",
+    "slaDeadline": "SLA मुदत",
+    "createdAt": "सादर केले",
+    "notAssigned": "नियुक्त नाही",
+    "noComplaints": "कोणत्याही तक्रारी आढळल्या नाहीत",
+    "photos": {
+      "before": "आधीचा फोटो",
+      "progress": "प्रगती फोटो",
+      "after": "नंतरचा फोटो"
+    },
+    "verification": "पडताळणी",
+    "citizenConfirmation": "नागरिक पुष्टी"
+  },
+  "status": {
+    "submitted": "सादर केले",
+    "under_review": "आढावा घेतला जात आहे",
+    "assigned": "नियुक्त केले",
+    "in_progress": "प्रगतीपथावर",
+    "resolution_submitted": "निराकरण सादर केले",
+    "verified": "पडताळलेले",
+    "closed": "बंद",
+    "reopened": "पुन्हा उघडले",
+    "rejected": "नाकारले"
+  },
+  "severity": {
+    "CRITICAL": "अत्यंत गंभीर",
+    "HIGH": "उच्च",
+    "MEDIUM": "मध्यम",
+    "LOW": "कमी"
+  },
+  "action": {
+    "assign": "नियुक्त करा",
+    "reassign": "पुन्हा नियुक्त करा",
+    "escalate": "वाढवा",
+    "verify": "पडताळा",
+    "close": "बंद करा",
+    "reopen": "पुन्हा उघडा",
+    "reject": "नाकारा",
+    "merge": "एकत्र करा",
+    "viewDetails": "तपशील पहा",
+    "filter": "फिल्टर",
+    "search": "शोधा",
+    "refresh": "रिफ्रेश",
+    "submit": "सबमिट करा"
+  },
+  "dashboard": {
+    "title": "कमांड सेंटर",
+    "critical": "अत्यंत गंभीर",
+    "overdue": "मुदत संपलेले",
+    "unassigned": "नियुक्त नाही",
+    "emerging": "उदयोन्मुख समस्या",
+    "open": "खुले",
+    "resolutionRate": "निराकरण दर",
+    "avgResolution": "सरासरी निराकरण",
+    "hours": "तास",
+    "deptWorkload": "विभाग कार्यभार",
+    "emergingAlerts": "उदयोन्मुख सूचना",
+    "noAlerts": "कोणत्याही उदयोन्मुख समस्या नाहीत"
+  },
+  "map": {
+    "title": "तक्रार नकाशा",
+    "filters": "फिल्टर",
+    "noComplaints": "दाखवण्यासाठी कोणत्याही तक्रारी नाहीत"
+  },
+  "assistant": {
+    "title": "AI सहाय्यक",
+    "placeholder": "प्रश्न विचारा...",
+    "ask": "विचारा",
+    "suggested": "सुचवलेले प्रश्न",
+    "answer": "उत्तर"
+  },
+  "worker": {
+    "name": "कामगाराचे नाव",
+    "selectWorker": "कामगार निवडा",
+    "assignTo": "कामगाराला नियुक्त करा"
+  },
+  "error": {
+    "generic": "काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.",
+    "load": "डेटा लोड करण्यात अयशस्वी."
+  },
+  "loading": "लोड होत आहे..."
+}

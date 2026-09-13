@@ -104,7 +104,13 @@ def seed_catalog(db: Session) -> None:
 def seed_users(db: Session) -> None:
     demo_users = [
         ("Amit Citizen", "amit@demo.solapur", "9000000001", UserRole.citizen, None, None),
-        ("Ramesh Worker", "ramesh@demo.solapur", "9000000002", UserRole.field_worker, 1, 1),
+        ("Ramesh Worker (SWM)", "ramesh@demo.solapur", "9000000002", UserRole.field_worker, 1, 1),
+        ("Vijay Worker (Health)", "vijay.worker@demo.solapur", "9000000012", UserRole.field_worker, 2, 2),
+        ("Santosh Worker (Roads)", "santosh.worker@demo.solapur", "9000000013", UserRole.field_worker, 3, 3),
+        ("Anil Worker (Lighting)", "anil.worker@demo.solapur", "9000000014", UserRole.field_worker, 4, 4),
+        ("Ganesh Worker (Water)", "ganesh.worker@demo.solapur", "9000000015", UserRole.field_worker, 5, 5),
+        ("Kiran Worker (Planning)", "kiran.worker@demo.solapur", "9000000016", UserRole.field_worker, 6, 6),
+        ("Prakash Worker (Works)", "prakash.worker@demo.solapur", "9000000017", UserRole.field_worker, 7, 7),
         ("Priya Officer", "officer.swm@demo.solapur", "9000000003", UserRole.officer, 1, 1),
         ("Sanjay Head", "head.swm@demo.solapur", "9000000004", UserRole.department_head, 1, None),
         ("Municipal Admin", "admin@demo.solapur", "9000000005", UserRole.admin, None, None),
